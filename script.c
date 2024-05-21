@@ -33,7 +33,7 @@ void loop()
 
         String json = "{\"temperature\":" + String(temperature) + ",\"humidity\":" + String(humidity) + "}";
 
-        int httpResponseCode = http.POST(jsonPayload);
+        int httpResponseCode = http.POST(json);
 
         if(httpResponseCode > 0)
         {
