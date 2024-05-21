@@ -8,8 +8,8 @@ unsigned long myChannelNumber = 2513861;
 const char * myWriteAPIKey = "6ELN470NIZ5JZ6CM";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 30000;
-float temperatureC;
-float umidade;
+float temperature;
+float humidity;
 
 void setup()
 {
@@ -33,14 +33,14 @@ void loop()
         Serial.println("\nConnected.");
     }
     
-    temperatureC = 25;
+    temperature = 25;
     Serial.print("Temperatura: ");
-    Serial.println(temperatureC);
-    umidade = 0.8;
+    Serial.println(temperature);
+    humidity = 0.8;
     Serial.print("Umidade: ");
-    Serial.println(umidade);
-    ThingSpeak.setField(1, temperatureC);
-    ThingSpeak.setField(2, umidade);
+    Serial.println(humidity);
+    ThingSpeak.setField(1, temperature);
+    ThingSpeak.setField(2, humidity);
 
     int x = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
 
