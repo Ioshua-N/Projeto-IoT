@@ -50,5 +50,5 @@ void loop()
         http.end();
     }
 
-    delay(1000); // enviar a cada 10s
+    delay(10000); // enviar a cada 10s
 }
