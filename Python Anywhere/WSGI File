@@ -1,0 +1,13 @@
+import sys
+import os
+
+# Adicione o caminho do seu diretório do projeto
+path = '/home/ioshuan'
+if path not in sys.path:
+    sys.path.append(path)
+
+# Defina a variável de ambiente para o Flask
+os.environ['FLASK_APP'] = 'api'
+
+# Importa o aplicativo Flask
+from api import app as application
