@@ -1,14 +1,15 @@
 from flask import Flask, request, jsonify
 
-app - Flask(__name__)
+app = Flask(__name__)
 
 @app.route('/', methods = ['POST'])
 def receive_data():
     if request.is_json:
         data = request.get_json()
         temperature = data.get('temperature')
-        humidity = data.get('dateTime')
+        humidity = data.get('humidity')
         id = data.get('id')
+        dateTime = data.get('dateTime')
 
         # mostrar valores no console
         print(f'Temperatura: {temperature}')
