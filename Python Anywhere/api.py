@@ -15,11 +15,11 @@ def receive_data():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
 
-if __name__ == '__main__':
-    app.run(debug = True)
+#if __name__ == '__main__':
+#    app.run(debug = True)
 
 # testar o envio e recebimento local:
-# curl -X POST http://127.0.0.1:5000/ -H "Content-Type: application/json" -d "{\"temperature\": 25.0, \"humidity\": 60}"
+# curl -X POST https://ioshuan.pythonanywhere.com/ -H "Content-Type: application/json" -d "{\"temperature\": 25.0, \"humidity\": 60}"
 
 # instalar as dependencias no python anywhere
 # cd myapi
