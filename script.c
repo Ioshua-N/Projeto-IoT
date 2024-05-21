@@ -1,11 +1,10 @@
 #include <WiFi.h>
-#include "ThingSpeak.h"
+#include <HTTPClient.h>
 
 const char* ssid = "My ASUS";
 const char* password = "12345678";
-WiFiClient client;
-unsigned long myChannelNumber = 2513861;
-const char * myWriteAPIKey = "6ELN470NIZ5JZ6CM";
+const char* serverName = "http://<SEU_IP>:8888";  // servidor Flask
+
 unsigned long lastTime = 0;
 unsigned long timerDelay = 30000;
 float temperature;
@@ -13,43 +12,53 @@ float humidity;
 
 void setup()
 {
-    // put your setup code here, to run once:
     Serial.begin(115200);
-    WiFi.mode(WIFI_STA);
-    ThingSpeak.begin(client);
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(1000);
+        Serial.println("Connecting to WiFi...");
+    }
+
+    Serial.println("Connected to WiFi");
 }
 
 void loop()
 {
-    // put your main code here, to run repeatedly:
-    if(WiFi.status() != WL_CONNECTED)
+    if ((millis() - lastTime) > timerDelay)
     {
-        Serial.print("Attempting to connect");
-        while(WiFi.status() != WL_CONNECTED)
+        if (WiFi.status() == WL_CONNECTED)
         {
-            WiFi.begin(ssid, password);
-            delay(5000);
+            HTTPClient http;
+
+            http.begin(serverName);
+            http.addHeader("Content-Type", "application/json");
+
+            temperature = 25.0;
+            humidity = 0.8;
+            String jsonData = "{\"temperature\":" + String(temperature) + ",\"humidity\":" + String(humidity) + "}";
+
+            int httpResponseCode = http.POST(jsonData);
+
+            if (httpResponseCode > 0)
+            {
+                String response = http.getString();
+                Serial.println(httpResponseCode);
+                Serial.println(response);
+            }
+            else
+            {
+                Serial.print("Error on sending POST: ");
+                Serial.println(httpResponseCode);
+            }
+
+            http.end();
         }
-        Serial.println("\nConnected.");
-    }
-    
-    temperature = 25;
-    Serial.print("Temperatura: ");
-    Serial.println(temperature);
-    humidity = 0.8;
-    Serial.print("Umidade: ");
-    Serial.println(humidity);
-    ThingSpeak.setField(1, temperature);
-    ThingSpeak.setField(2, humidity);
-
-    int x = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
-
-    if(x == 200)
-    {
-        Serial.println("Channel update successful.");
-    }
-    else
-    {
-        Serial.println("Problem updating channel. HTTP error code " + String(x));
+        else
+        {
+            Serial.println("WiFi Disconnected");
+        }
+        lastTime = millis();
     }
 }
