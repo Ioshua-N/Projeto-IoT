@@ -8,14 +8,14 @@ def receive_data():
         data = request.get_json()
         temperature = data.get('temperature')
         humidity = data.get('humidity')
-        id = data.get('id')
-        dateTime = data.get('dateTime')
+        #id = data.get('id')
+        #dateTime = data.get('dateTime')
 
         # mostrar valores no console
         print(f'Temperatura: {temperature}')
         print(f'Umidade: {humidity}')
-        print(f'Horário: {dateTime}')
-        print(f'Identificação: {id}')
+        #print(f'Horário: {dateTime}')
+        #print(f'Identificação: {id}')
 
         return jsonify({"message": "Dados recebidos com sucesso"}), 200
     else:
