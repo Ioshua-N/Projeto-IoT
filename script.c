@@ -3,7 +3,7 @@
 
 const char* ssid = "My ASUS";
 const char* password = "12345678";
-const char* serverName = "http://yourusername.pythonanywhere.com/";
+const char* serverName = "http://ioshuan.pythonanywhere.com/";
 
 void setup()
 {
@@ -43,7 +43,7 @@ void loop()
         }
         else
         {
-            Serial.print("Error on sending POST: ");
+            Serial.print("Erro ao fazer requisição POST: ");
             Serial.println(httpResponseCode);
         }
 
