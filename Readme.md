@@ -1,0 +1,1 @@
+Este repositório tem como objetivo armazenar os arquivos do PI envolvendo IoT, Python, C# e mais.
