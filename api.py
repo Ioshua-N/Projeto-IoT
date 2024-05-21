@@ -15,3 +15,10 @@ def receive_data():
         print(f'Umidade: {humidity}')
         print(f'Horário: {dateTime}')
         print(f'Identificação: {id}')
+
+        return jsonify({"message": "Dados recebidos com sucesso"}), 200
+    else:
+        return jsonify({"error": "Formato JSON errado"}), 400
+
+if __name__ == '__main__':
+    app.run(host = '0.0.0.0', port = 8888)
