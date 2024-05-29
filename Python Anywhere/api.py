@@ -1,49 +1,61 @@
-from flask import Flask, request, jsonify
+# A very simple Flask Hello World app for you to get started with...
+
+from flask import Flask, request, jsonify, render_template
 import mysql.connector
+from mysql.connector import Error
 
 app = Flask(__name__)
 
-received_data = []
-
-
-# conexão com o banco de dados !!!!!!!
-
-db_config = {
-    'user': 'AdrielFernando',
-    'password': 'adm12345',
-    'host': 'AdrielFernando.mysql.pythonanywhere-services.com',
-    'database': 'AdrielFernando$default'
-}
-
 def get_db_connection():
-    conn = mysql.connector.connect(**db_config)
-    return conn
+    try:
+        conn = mysql.connector.connect(
+            host="ioshuan.mysql.pythonanywhere-services.com",
+            user="ioshuan",
+            password="p4$$w0rd",
+            database="ioshuan$db_iot"
+        )
+        return conn
+    except Error as e:
+        print(f"Error connecting to database: {e}")
+        return None
 
-# conexão com o banco de dados !!!!!!!!!
+try:
+    conn = get_db_connection()
+    if conn is not None:
+        message = 'CONNECTED!'
+        mycursor = conn.cursor()
+        mycursor.execute("SELECT * FROM log_acesso")
+        results = mycursor.fetchall()
+        mycursor.close()
+        conn.close()
+    else:
+        results = ["?"]
+        message = 'NOT CONNECTED!'
+except Error as e:
+    results = ["?"]
+    message = f'NOT CONNECTED! Error: {str(e)}'
 
+@app.route('/')
+def index():
+    return render_template('index.html', message=message, results=results)
 
-@app.route('/', methods = ['POST'])
+@app.route('/post_data', methods=['POST'])
 def receive_data():
     try:
         data = request.get_json()
-        temperature = data['temperature']
-        humidity = data['humidity']
-
-
-        # Salvar dados no banco de dados!!!!!!!!
+        timestamp = data['timestamp']
+        event = data['evento']
+        origin = data['origem']
 
         conn = get_db_connection()
+        if conn is None:
+            return jsonify({"status": "error", "message": "Database connection failed"}), 500
+
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO dados (temperature, humidity) VALUES (%s, %s)", (temperature, humidity))
+        cursor.execute("INSERT INTO log_acesso (timestamp, evento, origem) VALUES (%s, %s, %s)", (timestamp, event, origin))
         conn.commit()
         cursor.close()
         conn.close()
-
-         # Salvar dados no banco de dados!!!!!!!!
-
-        received_data.append(data)
-
-        print(f"Temperatura: {temperature}, Humidity: {humidity}")
 
         return jsonify({"status": "success"}), 200
     except Exception as e:
@@ -51,18 +63,21 @@ def receive_data():
 
 @app.route('/received_data', methods=['GET'])
 def show_received_data():
-    return jsonify(received_data)
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return jsonify({"status": "error", "message": "Database connection failed"}), 500
 
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM log_acesso")
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
 
+        data = [{"timestamp": row[0], "evento": row[1], "origem": row[2]} for row in rows]
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
 
-#if __name__ == '__main__':
-#    app.run(debug = True)
-
-# testar o envio e recebimento local:
-# curl -X POST https://ioshuan.pythonanywhere.com/ -H "Content-Type: application/json" -d "{\"temperature\": 25.0, \"humidity\": 60}"
-
-# curl -X POST https://adrielfernando.pythonanywhere.com/ -H "Content-Type: application/json" -d "{\"temperature\": 25.0, \"humidity\": 60}"
-
-# instalar as dependencias no python anywhere
-# cd myapi
-# pip install -r requirements.txt --user
+if __name__ == '__main__':
+    app.run(debug=True)
