@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<title></title>
+</head>
+<body>
+
+<section>
+	<div class="left-div">
+		<br>
+		<hr class="hr" />
+		<ul class="nav">
+            <div>
+                <li class="logo">Grow<span style="font-weight: 100; ">Smart</span></li>
+                <li class="active"><a href=""><i class="fa fa-thermometer-empty"></i> Temperatura</a></li>
+                <li class="active"><a href=""><i class="fa fa-tint"></i> Umidade</a></li>
+                <li class="active"><a href=""><i class="fa fa-history"></i> Histórico</a></li>
+            </div>
+		</ul>
+		<br><br>
+	</div>
+
+	<div class="right-div">
+		<div id="main">
+			<br>
+		<div class="head">
+		<div class="col-div-6">
+		<p class="nav"> Dashboard</p>
+		</div>
+	
+	<div class="col-div-6">
+		
+</div>
+	<div class="clearfix"></div>
+</div>
+
+	<div class="clearfix"></div>
+	<br/><br/><br/>
+	
+	<div class="col-div-4-1">
+		<div class="box">
+			<p class="head-1">Temperatura</p>
+			<p class="number">'valorTemp'</p>
+			<i class="fa fa-thermometer-empty box-icon"></i>
+		</div>
+	</div>
+	<div class="col-div-4-1">
+		<div class="box">
+			<p class="head-1">Umidade</p>
+			<p class="number">'valorumidade'</p>
+			<i class="fa fa-tint box-icon"></i>
+		</div>
+	</div>
+	<div class="col-div-4-1">
+		<div class="box">
+			<p class="head-1">Histórico</p>
+			<p class="number">35343</p>
+			<p class="number">35343</p>
+			<i class="fa fa-history box-icon"></i>
+		</div>
+	</div>
+	
+	<div class="clearfix"></div>
+	<br/><br/>
+
+	
+	<div class="col-div-1">
+		<div class="box-1">
+			<div class="content-box-1">
+			<p class="head-1">Recomendações</p>
+			<br/>
+			
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+</div>
+
+	</div>
+	<div class="clearfix"></div>
+</section>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $(".profile p").click(function(){
+    $(".profile-div").toggle();
+    
+  });
+  $(".noti-icon").click(function(){
+    $(".notification-div").toggle();
+  });
+});
+</script>
+<script type="text/javascript">
+	$('li').click(function(){
+    $('li').removeClass("active");
+    $(this).addClass("active");
+});
+</script>
+</body>
+</html>
