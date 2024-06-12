@@ -153,7 +153,8 @@ def analytic():
 
     responseLuz = (model.generate_content(promptLuz[0])).text
 
-    responseTemperature, responseHumidity, responseLuz, message = create_prompts()
+    # responseTemperature, responseHumidity, responseLuz, message = create_prompts()
+    
     if message == 'CONECTADO!':
         print(responseTemperature)
         print(responseHumidity)
@@ -161,7 +162,13 @@ def analytic():
     else:
         print(message)
         
-    return responseTemperature, responseHumidity, responseLuz
+    # return responseTemperature, responseHumidity, responseLuz
+
+    return {
+    "temperature": responseTemperature,
+    "humidity": responseHumidity,
+    "luz": responseLuz
+    }
 
 
 @app.route('/received_data', methods=['GET'])

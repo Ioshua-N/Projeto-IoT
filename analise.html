@@ -37,21 +37,21 @@
             <div class="col-div-4-1">
                 <div class="caixa">
                     <p class="head-1">Temperatura</p>
-                    <p class="number">22</p>
+                    <p class="number" id="temperature">22</p>
                     <i class="fa fa-thermometer-empty box-icon"></i>
                 </div>
             </div>
             <div class="col-div-4-1">
                 <div class="caixa">
                     <p class="head-1">Umidade</p>
-                    <p class="number">66</p>
+                    <p class="number" id="humidity">66</p>
                     <i class="fa fa-tint box-icon"></i>
                 </div>
             </div>
             <div class="col-div-4-1">
                 <div class="caixa">
                     <p class="head-1" style="justify-content: center; display: flex; font-size: 20px;">Luz</p>
-                    <p class="number">54</p>
+                    <p class="number" id="luz">54</p>
                     <i class="fa fa-lightbulb-o box-icon"></i>
                 </div>
             </div>
@@ -62,8 +62,26 @@
     <div class="clearfix"></div>
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
+        // Função para buscar os valores da planta
+        function fetchPlantaValues() {
+            $.get("http://ioshuan.pythonanywhere.com/analyticGemini", function(data) {
+                // Atualizar os elementos HTML com os valores obtidos
+                $("#temperature").text(data.temperature);
+                $("#humidity").text(data.humidity);
+                $("#luz").text(data.luz);
+            });
+        }
+
+        // Chamar a função ao carregar a página
+        fetchPlantaValues();
+        
+        // Definir um intervalo para atualizar os valores periodicamente (opcional)
+        setInterval(fetchPlantaValues, 5000); // Atualiza a cada 5 segundos (5000 milissegundos)
+
+        // Adicionar classe 'active' ao clicar em um item de menu
         $('li').click(function(){
             $('li').removeClass("active");
             $(this).addClass("active");
