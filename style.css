@@ -143,7 +143,7 @@ body {
 
 .caixa {
     display: inline-block;
-    min-height: 80%;
+    min-height: 900px;
     min-width: 80%;
     background-color: #e3e3e3;
     margin: 0 10px 20px 10px;
