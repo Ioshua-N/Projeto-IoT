@@ -142,10 +142,11 @@ body {
 } */
 
 .caixa {
-    width: 88%; /*width: calc(33.3% - 20px);  Largura das caixas com margem */
-    height: 550px;
+    display: inline-block;
+    min-height: 80%;
+    min-width: 80%;
     background-color: #e3e3e3;
-    margin: 0 10px 20px 10px; /* Espaçamento externo */
+    margin: 0 10px 20px 10px;
     padding: 10px;
     box-shadow: 2px 5px 10px #ddd;
     position: relative;
