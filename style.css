@@ -193,6 +193,15 @@ body {
     float: left;
 }
 
+.head {
+    text-align: center; /* Centraliza horizontalmente */
+    width: 100%; /* Ocupa toda a largura disponível */
+}
+
+.head p {
+    font-weight: bold; /* Torna o título em negrito */
+}
+
 .head-1 {
     font-size: 18px !important;
     margin: 10px 0px;
@@ -267,8 +276,13 @@ body {
 }
 
 .table-container {
-    height: 300px; /* Altura máxima da tabela */
+    height: 700px; /* Altura máxima da tabela */
     overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+}
+
+#data-table {
+    width: 100%; /* Para ocupar toda a largura disponível */
+    height: 100%; /* Para ocupar toda a altura disponível */
 }
 
 #data-table tbody tr.even {
