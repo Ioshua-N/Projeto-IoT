@@ -86,6 +86,76 @@ def receive_data():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
 
+
+
+@app.route('/analyticGemini')
+
+
+def index():
+    try:
+        conn = get_db_connection()
+        if conn is not None:
+            message = 'CONECTADO!'
+            mycursor = conn.cursor()
+            
+            # Consulta para pegar os últimos 10 valores das colunas "luz", "humidity" e "temperature"
+            
+            mycursor.execute("SELECT luz FROM log_acesso ORDER BY timestamp DESC LIMIT 10")
+            luz_values = mycursor.fetchall()
+            luz_list = [row[0] for row in luz_values]
+
+            mycursor.execute("SELECT humidity FROM log_acesso ORDER BY timestamp DESC LIMIT 10")
+            humidity_values = mycursor.fetchall()
+            humidity_list = [row[0] for row in humidity_values]
+
+            mycursor.execute("SELECT temperature FROM log_acesso ORDER BY timestamp DESC LIMIT 10")
+            temperature_values = mycursor.fetchall()
+            temperature_list = [row[0] for row in temperature_values]
+
+            # Fechar o cursor e a conexão
+            mycursor.close()
+            conn.close()
+
+            # Para o restante do código
+            conn = get_db_connection()
+            mycursor = conn.cursor()
+            mycursor.execute("SELECT * FROM log_acesso ORDER BY timestamp DESC LIMIT 1")
+            result = mycursor.fetchone()
+            mycursor.close()
+            conn.close()
+
+            if result:
+                id, timestamp, evento, origem, temperature, humidity, luz = result
+            else:
+                id, timestamp, evento, origem, temperature, humidity, luz = None, None, None, None, None, None, None
+                message = 'Nenhuma tupla encontrada.'
+        else:
+            id, timestamp, evento, origem, temperature, humidity, luz = None, None, None, None, None, None, None
+            message = 'NOT CONNECTED!'
+    except Error as e:
+        id, timestamp, evento, origem, temperature, humidity, luz = None, None, None, None, None, None, None
+        message = f'NOT CONNECTED! Error: {str(e)}'
+
+
+
+    # Uso da API GEMINI
+    promptTemperature = ["considere que voce é um especial horicultor ou agronomo, de acordo com valores recentes sobre temperatura, humidade , luminosidade de uma planta que não esses - {temperature_list}  forcena uma analise apenas sobre esse aspecto da planta, forneça recomendações de como melhorar, é muito importante deixar tudo na mesma linha e não coloque nenhum caracter especial como * e // "]
+
+    promptHumidity = ["considere que voce é um especial horicultor ou agronomo, de acordo com valores recentes sobre humidade de uma planta que não esses - {humidity_list} forcena uma analise apenas sobre esse aspecto da planta, forneça recomendações de como melhorar, é muito importante deixar tudo na mesma linha e não coloque nenhum caracter especial como * e // "]
+
+    promptLuz = ["considere que voce é um especial horicultor ou agronomo, de acordo com valores recentes sobre a luminosidade de uma planta que não esses - {luz_list} forcena uma analise apenas sobre esse aspecto da planta, forneça recomendações de como melhorar, é muito importante deixar tudo na mesma linha e não coloque nenhum caracter especial como * e // "]
+
+    responseTemperature = (model.generate_content(promptTemperature[0])).text
+
+    responseHumidity = model.generate_content(promptHumidity[0]).text
+
+    responseLuz = (model.generate_content(promptLuz[0])).text
+
+    print(responseTemperature, responseHumidity, responseLuz)
+
+    return responseTemperature, responseHumidity, responseLuz
+
+
 @app.route('/received_data', methods=['GET'])
 def show_received_data():
     try:
