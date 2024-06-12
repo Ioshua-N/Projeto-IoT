@@ -89,9 +89,11 @@ def receive_data():
 
 
 @app.route('/analyticGemini')
-
-
-def index():
+def analytic():
+    luz_list = []
+    humidity_list = []
+    temperature_list = []
+    message = ''
     try:
         conn = get_db_connection()
         if conn is not None:
@@ -103,19 +105,19 @@ def index():
             mycursor.execute("SELECT luz FROM log_acesso ORDER BY timestamp DESC LIMIT 10")
             luz_values = mycursor.fetchall()
             luz_list = [row[0] for row in luz_values]
-
+    
             mycursor.execute("SELECT humidity FROM log_acesso ORDER BY timestamp DESC LIMIT 10")
             humidity_values = mycursor.fetchall()
             humidity_list = [row[0] for row in humidity_values]
-
+    
             mycursor.execute("SELECT temperature FROM log_acesso ORDER BY timestamp DESC LIMIT 10")
             temperature_values = mycursor.fetchall()
             temperature_list = [row[0] for row in temperature_values]
-
+    
             # Fechar o cursor e a conexão
             mycursor.close()
             conn.close()
-
+    
             # Para o restante do código
             conn = get_db_connection()
             mycursor = conn.cursor()
@@ -123,7 +125,7 @@ def index():
             result = mycursor.fetchone()
             mycursor.close()
             conn.close()
-
+    
             if result:
                 id, timestamp, evento, origem, temperature, humidity, luz = result
             else:
@@ -136,7 +138,7 @@ def index():
         id, timestamp, evento, origem, temperature, humidity, luz = None, None, None, None, None, None, None
         message = f'NOT CONNECTED! Error: {str(e)}'
 
-
+    
 
     # Uso da API GEMINI
     promptTemperature = ["considere que voce é um especial horicultor ou agronomo, de acordo com valores recentes sobre temperatura, humidade , luminosidade de uma planta que não esses - {temperature_list}  forcena uma analise apenas sobre esse aspecto da planta, forneça recomendações de como melhorar, é muito importante deixar tudo na mesma linha e não coloque nenhum caracter especial como * e // "]
@@ -151,8 +153,14 @@ def index():
 
     responseLuz = (model.generate_content(promptLuz[0])).text
 
-    print(responseTemperature, responseHumidity, responseLuz)
-
+    responseTemperature, responseHumidity, responseLuz, message = create_prompts()
+    if message == 'CONECTADO!':
+        print(responseTemperature)
+        print(responseHumidity)
+        print(responseLuz)
+    else:
+        print(message)
+        
     return responseTemperature, responseHumidity, responseLuz
 
 
