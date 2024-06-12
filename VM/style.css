@@ -1,0 +1,295 @@
+:root {
+    --main-color: #348f6c;
+    --second-color: #e2c992;
+    --black: #000;
+    --white: #fff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+    background: var(--main-color);
+    height: 100vh;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.left-div {
+    width: 12%;
+    float: left;
+    height: 90vh;
+    padding: 25px 10px 0px 35px;
+}
+
+.right-div {
+    width: 76%;
+    float: left;
+    height: 85vh;
+    background: var(--white);
+    margin: 25px;
+    border-radius: 25px;
+    padding: 30px;
+}
+
+.logo {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.hr {
+    border: none;
+    height: 1px;
+    background: #ddd3;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.nav li {
+    list-style: none;
+    padding: 13px 10px;
+}
+
+.nav li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.nav li a i {
+    padding-right: 5px;
+    color: var(--second-color);
+    font-size: 23px;
+    padding-right: 10px;
+    vertical-align: bottom;
+    width: 23px;
+    height: 23px;
+}
+
+.nav > li {
+    border-radius: 60px 0 0 60px;
+    width: 101%;
+    padding-left: 25px;
+    margin-left: -16px;
+}
+
+.active {
+    background: var(--white);
+    border-radius: 27px;
+    position: relative;
+}
+
+.nav > .active::before,
+.nav > .active::after {
+    content: "";
+    position: absolute;
+}
+
+.nav > .active::before {
+    top: -80px;
+    right: -24px;
+    height: 80px;
+    width: 40px;
+    border-bottom-right-radius: 80px;
+    box-shadow: 0 40px 0 0 var(--white);
+    transform: rotateY(324deg);
+}
+
+.nav > .active::after {
+    top: 49px;
+    right: -24px;
+    height: 80px;
+    width: 38px;
+    border-top-right-radius: 80px;
+    box-shadow: 0 -40px 0 0 var(--white);
+    transform: rotateY(324deg);
+}
+
+.active a {
+    color: var(--black) !important;
+}
+
+.col-div-6 {
+    width: 50%;
+    float: left;
+}
+
+.box {
+    width: 88%;
+    height: 130px;
+    background-color: #e3e3e3;
+    margin-left: 10px;
+    padding: 10px;
+    box-shadow: 2px 5px 10px #ddd;
+    position: relative;
+    border-radius: 15px;
+}
+/* .caixa {
+    width: 88%;
+    height: 450px;
+    background-color: #e3e3e3;
+    margin-left: 10px;
+    padding: 10px;
+    box-shadow: 2px 5px 10px #ddd;
+    position: relative;
+    border-radius: 15px;
+} */
+
+.caixa {
+    display: inline-block;
+    min-height: 900px;
+    min-width: 80%;
+    background-color: #e3e3e3;
+    margin: 0 10px 20px 10px;
+    padding: 10px;
+    box-shadow: 2px 5px 10px #ddd;
+    position: relative;
+    border-radius: 15px;
+}
+
+/* Adicionando estilos para o scroll das caixas */
+.caixa-container {
+    height: 450px; /* Altura máxima das caixas */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+.box p {
+    color: #348f6c;
+    font-weight: 500;
+    padding-left: 10px;
+}
+.caixa p {
+    color: #348f6c;
+    font-weight: 500;
+    padding-left: 10px;
+}
+.number {
+    font-size: 35px;
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+
+.box-icon {
+    font-size: 20px !important;
+    margin-top: 35px !important;
+    color: #348f6c;
+    padding-right: 10px;
+    background-color: #efeff5;
+    padding: 15px;
+    border-radius: 25px;
+    position: absolute;
+    right: 16px;
+    top: -18px;
+}
+
+.col-div-4-1 {
+    width: 33.3%;
+    float: left;
+}
+
+.head {
+    text-align: center; /* Centraliza horizontalmente */
+    width: 100%; /* Ocupa toda a largura disponível */
+}
+
+.head p {
+    font-weight: bold; /* Torna o título em negrito */
+}
+
+.head-1 {
+    font-size: 18px !important;
+    margin: 10px 0px;
+    color: #6c7293;
+}
+
+.head-1 span {
+    float: right;
+    background-color: #348f6c;
+    color: white;
+    padding: 3px 10px;
+    font-size: 15px;
+    line-height: 14px;
+    vertical-align: baseline;
+    padding-top: 8px;
+}
+
+.circle-wrap {
+    margin: 50px auto;
+    width: 150px;
+    height: 150px;
+    background: #e6e2e7;
+    border-radius: 50%;
+}
+
+.circle-wrap .circle .mask,
+.circle-wrap .circle .fill {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.circle-wrap .circle .mask {
+    clip: rect(0px, 150px, 150px, 75px);
+}
+
+.circle-wrap .circle .mask .fill {
+    clip: rect(0px, 75px, 150px, 0px);
+    background-color: #348f6c;
+}
+
+.circle-wrap .circle .mask.full,
+.circle-wrap .circle .fill {
+    animation: fill ease-in-out 3s;
+    transform: rotate(126deg);
+}
+
+@keyframes fill {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(126deg);
+    }
+}
+
+.circle-wrap .inside-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: #fff;
+    line-height: 130px;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    position: absolute;
+    z-index: 100;
+    font-weight: 700;
+    font-size: 2em;
+    color: #348f6c;
+}
+
+.table-container {
+    height: 700px; /* Altura máxima da tabela */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+}
+
+#data-table {
+    width: 100%; /* Para ocupar toda a largura disponível */
+    height: 100%; /* Para ocupar toda a altura disponível */
+}
+
+#data-table tbody tr.even {
+    background-color: #f2f2f2; /* Cor de fundo para linhas pares */
+}
+
+#data-table tbody tr.odd {
+    background-color: #ffffff; /* Cor de fundo para linhas ímpares */
+}
