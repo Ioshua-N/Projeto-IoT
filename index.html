@@ -37,30 +37,30 @@
             <div class="col-div-4-1">
                 <div class="box">
                     <p class="head-1">Temperatura</p>
-                    <p class="number">'temp'</p>
+                    <p class="number" id="temperature"></p>
                     <i class="fa fa-thermometer-empty box-icon"></i>
                 </div>
             </div>
             <div class="col-div-4-1">
                 <div class="box">
                     <p class="head-1">Umidade</p>
-                    <p class="number">'umidity'</p>
+                    <p class="number" id="humidity"></p>
                     <i class="fa fa-tint box-icon"></i>
                 </div>
             </div>
             <div class="col-div-4-1">
                 <div class="box">
                     <p class="head-1">Luz</p>
-                    <p class="number">'luz'</p>
+                    <p class="number" id="luz"></p>
                     <i class="fa fa-lightbulb-o box-icon"></i>
                 </div>
             </div>
             <div class="clearfix"></div>
             <br/><br/>
-            <div class="col-div-4-2" style="     display: flex; justify-content: center; align-items: center;padding: 7%">
+            <div class="col-div-4-2" style="display: flex; justify-content: center; align-items: center;padding: 7%">
                 <div class="box">
-                    <p class="head-1" style="    display: flex; justify-content: center;">Humor da Planta</p>
-                    <p class="number" style="    display: flex; justify-content: center;">'humor'</p>
+                    <p class="head-1" style="display: flex; justify-content: center;">Humor da Planta</p>
+                    <p class="number" id = "humor"style="display: flex; justify-content: center;"></p>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -70,12 +70,24 @@
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('li').click(function(){
-            $('li').removeClass("active");
-            $(this).addClass("active");
-        });
+function fetchData() {
+    $.get("http://ioshuan.pythonanywhere.com/", function(data) {
+        // Extrair os valores de temperatura, umidade, luminosidade e humor da resposta
+        var matches = data.match(/Humor: (.*), Temperatura: (.*), Umidade: (.*), Luminosidade: (.*)/);
+        if (matches && matches.length == 5) {
+            var humor = matches[1];
+            var temperature = matches[2];
+            var humidity = matches[3];
+            var luz = matches[4];
+            // Atualizar os elementos HTML com os valores obtidos
+            $("#humor").text("Humor: " + humor);
+            $("#temperature").text("Temperatura: " + temperature + " °C");
+            $("#humidity").text("Umidade: " + humidity + " %");
+            $("#luz").text("Luz: " + luz);
+        }
     });
+}
+fetchData();
 </script>
 </body>
 </html>

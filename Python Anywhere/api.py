@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS  # Importe o CORS
 import mysql.connector
 from mysql.connector import Error
 from datetime import datetime
@@ -10,6 +11,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)  # Adicione o CORS à sua aplicação Flask
 
 def get_db_connection():
     try:
@@ -42,22 +44,20 @@ def index():
 
             if result:
                 id, timestamp, evento, origem, temperature, humidity, luz = result
+                # Uso da API GEMINI
+                context_prompt = ["considere que voce é um especial horicultor ou agronomo, de acordo com valores recentes sobre temperatura, humidade , luminosidade de uma planta voce é capaz de geral uma análise geral e simples sobre o estado dessa planta"]
+                prompt = [f"preciso que voce faça a análise da planta que está com esses valores - temperatura{temperature}, humidade{humidity}, luminosidade{luz} - a resposta deve conter até 35 palavras e sem caractetes especias como * ou barra / \ , deixe a resposta na mesma linha"]
+                response = (model.generate_content([context_prompt[0], prompt[0]])).text
+                # Integração dos valores e da resposta em uma única string
+                response = f"Humor: {response}, Temperatura: {temperature}, Umidade: {humidity}, Luminosidade: {luz}"
             else:
-                id, timestamp, evento, origem, temperature, humidity, luz = None, None, None, None, None, None, None
-                message = 'Nenhuma tupla encontrada.'
+                response = 'Nenhuma tupla encontrada.'
         else:
-            id, timestamp, evento, origem, temperature, humidity, luz = None, None, None, None, None, None, None
-            message = 'NOT CONNECTED!'
+            response = 'NOT CONNECTED!'
     except Error as e:
-        id, timestamp, evento, origem, temperature, humidity, luz = None, None, None, None, None, None, None
-        message = f'NOT CONNECTED! Error: {str(e)}'
+        response = f'NOT CONNECTED! Error: {str(e)}'
 
-    # Uso da API GEMINI
-    context_prompt = ["considere que voce é um especial horicultor ou agronomo, de acordo com valores recentes sobre temperatura, humidade , luminosidade de uma planta voce é capaz de geral uma análise geral e simples sobre o estado dessa planta"]
-    prompt = [f"preciso que voce faça a análise da planta que está com esses valores - temperatura{temperature}, humidade{humidity}, luminosidade{luz} - a resposta deve conter até 35 palavras e sem caractetes especias como * ou barra / \ , deixe a resposta na mesma linha"]
-    response = (model.generate_content([context_prompt[0], prompt[0]])).text
-
-    return render_template('index.html', message=message, id=id, timestamp=timestamp, evento=evento, origem=origem, temperature=temperature, humidity=humidity, luz=luz, analyticGemini=response)
+    return response  # Retornando a resposta contendo a análise e os valores de temperatura, umidade e luminosidade
 
 @app.route('/post_data', methods=['POST'])
 def receive_data():
