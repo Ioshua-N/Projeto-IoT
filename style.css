@@ -130,7 +130,7 @@ body {
     position: relative;
     border-radius: 15px;
 }
-.caixa {
+/* .caixa {
     width: 88%;
     height: 450px;
     background-color: #e3e3e3;
@@ -139,8 +139,26 @@ body {
     box-shadow: 2px 5px 10px #ddd;
     position: relative;
     border-radius: 15px;
+} */
 
+.caixa {
+    width: 88%; /*width: calc(33.3% - 20px);  Largura das caixas com margem */
+    height: 550px;
+    background-color: #e3e3e3;
+    margin: 0 10px 20px 10px; /* Espaçamento externo */
+    padding: 10px;
+    box-shadow: 2px 5px 10px #ddd;
+    position: relative;
+    border-radius: 15px;
 }
+
+/* Adicionando estilos para o scroll das caixas */
+.caixa-container {
+    height: 450px; /* Altura máxima das caixas */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
 .box p {
     color: #348f6c;
     font-weight: 500;
