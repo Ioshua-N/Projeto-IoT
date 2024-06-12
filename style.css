@@ -247,3 +247,16 @@ body {
     font-size: 2em;
     color: #348f6c;
 }
+
+.table-container {
+    height: 300px; /* Altura máxima da tabela */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+}
+
+#data-table tbody tr.even {
+    background-color: #f2f2f2; /* Cor de fundo para linhas pares */
+}
+
+#data-table tbody tr.odd {
+    background-color: #ffffff; /* Cor de fundo para linhas ímpares */
+}
